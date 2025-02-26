@@ -1,5 +1,8 @@
+#define INT_LEN 12
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <limits.h>
 
 #include "List.h"
@@ -80,11 +83,26 @@ IList* ilistRemove(IList* list, int ind) {
 }
 
 // WIP
-char* toString(const IList* list) {
-	char* string = malloc(1000); // change later
+char* ilistToString(const IList* list) {
+	int len = ilistLength(list);
+	int maxBuffer = INT_LEN * len + 2; // INT_LEN - is a maximum length of integer, plus comma. And additional 2 bytes for '[' and ']'
+	char* string = malloc(maxBuffer);
 	int ind = 0;
 
-	for (IList* node = list; node != NULL; node = node->next);
+	snprintf(string, maxBuffer, "[");
+	ind++;
+
+	for (IList* node = list; node != NULL; node = node->next) {
+		char* currentNum = malloc(INT_LEN); // 12 - is a maximum length of integer, plus comma.
+		if (node->next != NULL) snprintf(currentNum, INT_LEN, "%d, ", node->val);
+		else snprintf(currentNum, INT_LEN, "%d", node->val);
+
+		snprintf(string + ind, maxBuffer, "%s", currentNum);
+		ind += strlen(currentNum);
+	}
+
+	snprintf(string + ind, maxBuffer, "]");
+	return string;
 }
 
 void printList(const IList* list) {

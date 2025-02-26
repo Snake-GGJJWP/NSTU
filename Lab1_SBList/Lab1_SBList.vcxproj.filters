@@ -21,6 +21,12 @@
     <ClCompile Include="List.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="listFindmax.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mergeListsAtE.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="List.h">

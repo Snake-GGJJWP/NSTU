@@ -22,6 +22,6 @@ int ilistLength(const IList* list);
 // Remove node at index 'ind' from 'list'. Return the current list's head pointer on success, NULL on failure 
 IList* ilistRemove(IList* list, int ind);
 // Get string representation of 'list';
-char* toString(const IList* list);
+char* ilistToString(const IList* list);
 // Print list
 void printList(const IList* list);
