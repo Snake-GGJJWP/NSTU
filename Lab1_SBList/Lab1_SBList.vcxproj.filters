@@ -27,6 +27,9 @@
     <ClCompile Include="mergeListsAtE.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="listMenu.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="List.h">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="mergeListsAtE.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="listMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

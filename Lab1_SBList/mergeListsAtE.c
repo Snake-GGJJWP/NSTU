@@ -9,9 +9,14 @@ int mergeListsAtE(IList* listDest, const IList* listSrc, int e) {
 	
 	if (startNode == NULL) return -1;
 
+	// Can be optimized? 
+	int i = 0;
 	for (IList* node = listSrc; node != NULL; node = node->next) {
-		ilistInsert(startNode, node->val, 1); // insert the new value right after the current node
-		startNode = startNode->next;
+		// Insert the new value right after the current node.
+		// It's important that we insert values node by node,
+		// so we basically copy them, and listSrc stays independent.  
+		ilistInsert(&startNode, node->val, i + 1);
+		i++;
 	}
 
 	return ilistLength(listDest);

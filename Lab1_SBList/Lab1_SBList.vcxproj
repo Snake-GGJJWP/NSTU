@@ -130,11 +130,13 @@
     <ClCompile Include="List.c" />
     <ClCompile Include="listFindmax.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="listMenu.c" />
     <ClCompile Include="mergeListsAtE.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="List.h" />
     <ClInclude Include="listFindmax.h" />
+    <ClInclude Include="listMenu.h" />
     <ClInclude Include="mergeListsAtE.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

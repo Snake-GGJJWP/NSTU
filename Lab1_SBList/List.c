@@ -28,19 +28,20 @@ IList* newIList(const int* arr, int len) {
 	prevNode->next = NULL;
 	return headNode;
 }
-// Insert integer 'val' at index 'ind' in 'list'. Return 0 on failure, 1 on success
-IList* ilistInsert(IList* list, int val, int ind) {
+// Insert integer 'val' at index 'ind' in 'list'. Return 1 on success, 0 on failure
+char ilistInsert(IList** list, int val, int ind) {
 	IList* newNode = newIListNode(val);
-	IList* nextNode = ilistGetNode(list, ind); // nextNode at index 'ind'
-	IList* prevNode = ilistGetNode(list, ind - 1); // prevNode at index 'ind - 1'
+	IList* nextNode = ilistGetNode(*list, ind); // nextNode at index 'ind'
+	IList* prevNode = ilistGetNode(*list, ind - 1); // prevNode at index 'ind - 1'
 
-	if (nextNode == NULL && prevNode == NULL) return NULL;
+	// if index is not valid (no neighbouring nodes and the list is not empty)
+	if (*list != NULL && nextNode == NULL && prevNode == NULL) return 0;
 
 	if (nextNode != NULL) newNode->next = nextNode;
 	if (prevNode != NULL) prevNode->next = newNode;
-	else return newNode; // if the value inserted in the head, we should change the head
+	else *list = newNode; // if the value inserted in the head, we should change the head
 
-	return list;
+	return 1;
 }
 // Get value at index 'ind' in 'list'. Return value if there's any, INT_MIN on failure
 int ilistGetValue(const IList* list, int ind) {
@@ -70,19 +71,26 @@ int ilistLength(const IList* list) {
 	return count;
 }
 
-// Remove node at index 'ind' from 'list'. Return 0 on failure, 1 on success
-IList* ilistRemove(IList* list, int ind) {
-	IList* nextNode = ilistGetNode(list, ind + 1); // nextNode at index 'ind + 1'
-	IList* prevNode = ilistGetNode(list, ind - 1); // prevNode at index 'ind - 1'
+// Remove node at index 'ind' from 'list'. Return 1 on success, 0 on failure 
+char ilistRemove(IList** list, int ind) {
+	IList* currentNode = ilistGetNode(*list, ind); // currentNode at index 'ind' 
+	IList* nextNode = ilistGetNode(*list, ind + 1); // nextNode at index 'ind + 1'
+	IList* prevNode = ilistGetNode(*list, ind - 1); // prevNode at index 'ind - 1'
 
-	if (ilistGetNode(list, ind) == NULL) return NULL; // if the node we remove is not present, return NULL
-	if (prevNode == NULL) return nextNode; // if head is removed return the new head
+	if (currentNode == NULL) return 0; // if the node we remove is not present, return NULL
+
+	free(currentNode);
+
+	// if head is removed update the pointer
+	if (prevNode == NULL) {
+		*list = nextNode;
+		return 1;
+	}
 	
 	prevNode->next = nextNode; // doesn't matter if nextNode is actual node or NULL
-	return list;
+	return 1;
 }
 
-// WIP
 char* ilistToString(const IList* list) {
 	int len = ilistLength(list);
 	int maxBuffer = INT_LEN * len + 2; // INT_LEN - is a maximum length of integer, plus comma. And additional 2 bytes for '[' and ']'
