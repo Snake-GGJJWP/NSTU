@@ -26,13 +26,14 @@ void listMenu() {
 	IList* list = NULL;
 	while (op != 0) 
 	{
-		if (op == 0) break; // exit
 
 		printOptions();
 		if (!scanf_s("%d", &op) || op > 9 || op < 0) {
 			printf("Incorrect option! Enter a number from 1 to 9!\n");
 			continue;
 		}
+
+		if (op == 0) break; // exit
 		
 		printf("\n");
 		
