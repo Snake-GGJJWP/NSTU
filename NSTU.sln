@@ -9,6 +9,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PZ1_Recursion", "PZ1_Recurs
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PZ2_Structs", "PZ2_Structs\PZ2_Structs.vcxproj", "{69760C03-2B77-407B-AC82-E40AB6B85276}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PZ3_List", "PZ3_List\PZ3_List.vcxproj", "{711BBC61-562C-4CE8-B62E-E318B19ECDC3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{69760C03-2B77-407B-AC82-E40AB6B85276} = {69760C03-2B77-407B-AC82-E40AB6B85276}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +46,14 @@ Global
 		{69760C03-2B77-407B-AC82-E40AB6B85276}.Release|x64.Build.0 = Release|x64
 		{69760C03-2B77-407B-AC82-E40AB6B85276}.Release|x86.ActiveCfg = Release|Win32
 		{69760C03-2B77-407B-AC82-E40AB6B85276}.Release|x86.Build.0 = Release|Win32
+		{711BBC61-562C-4CE8-B62E-E318B19ECDC3}.Debug|x64.ActiveCfg = Debug|x64
+		{711BBC61-562C-4CE8-B62E-E318B19ECDC3}.Debug|x64.Build.0 = Debug|x64
+		{711BBC61-562C-4CE8-B62E-E318B19ECDC3}.Debug|x86.ActiveCfg = Debug|Win32
+		{711BBC61-562C-4CE8-B62E-E318B19ECDC3}.Debug|x86.Build.0 = Debug|Win32
+		{711BBC61-562C-4CE8-B62E-E318B19ECDC3}.Release|x64.ActiveCfg = Release|x64
+		{711BBC61-562C-4CE8-B62E-E318B19ECDC3}.Release|x64.Build.0 = Release|x64
+		{711BBC61-562C-4CE8-B62E-E318B19ECDC3}.Release|x86.ActiveCfg = Release|Win32
+		{711BBC61-562C-4CE8-B62E-E318B19ECDC3}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

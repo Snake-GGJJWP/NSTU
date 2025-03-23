@@ -27,6 +27,8 @@ char wmIsValid(WashingMachine* wm) {
 // i.e it returns 0 if no fields are invalid, 2^1 + 2^2 = 6 if waterConsume_l and priceUsd fields are invalid.
 // Fields go from 0 to 2 corresponding model, waterConsume_l and priceUsd respectively. 
 char wmInit(WashingMachine* wm, char* model, double waterConsume_l, double priceUsd) {
+	if (wm == NULL) return 1 + 2 + 4;
+
 	char report = wmIsValid(&(WashingMachine){ .model = model, .waterConsume_l = waterConsume_l, .priceUsd = priceUsd });
 
 	if (report) return report;
