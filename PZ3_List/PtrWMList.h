@@ -3,37 +3,37 @@
 
 // Single-binded int List structure
 
-typedef struct WMList {
-	WashingMachine val; // Value
-	struct WMList* next; // Next node
-} WMList;
+typedef struct PtrWMList {
+	WashingMachine* val; // Value
+	struct PtrWMList* next; // Next node
+} PtrWMList;
 
 typedef int (*Compare) (WashingMachine*, WashingMachine*);
 
 // Construct a single integer list node.
-WMList* newWMListNode(WashingMachine val);
+PtrWMList* newptrWMListNode(WashingMachine* val);
 // Construct an integer list, containing values from the array.
-WMList* newWMList(const WashingMachine* arr, int len);
+PtrWMList* newptrWMList(const WashingMachine** arr, int len);
 // Insert integer 'val' at index 'ind' in 'list'. Return 1 on success, 0 on failure
-char wmlistInsert(WMList** list, WashingMachine val, int ind);
+char ptrwmlistInsert(PtrWMList** list, WashingMachine* val, int ind);
 // Get value at index 'ind' in 'list'. Return value if there's any, empty structure on failure
-WashingMachine wmlistGetValue(const WMList* list, int ind);
+WashingMachine* ptrwmlistGetValue(const PtrWMList* list, int ind);
 // Get list node at index 'ind' in 'list'. Return node if there's any, NULL on failure
-WMList* wmlistGetNode(const WMList* list, int ind);
+PtrWMList* ptrwmlistGetNode(const PtrWMList* list, int ind);
 // Get 'list' length. Return length on success, -1 on failure.
-int wmlistLength(const WMList* list);
+int ptrwmlistLength(const PtrWMList* list);
 // Remove node at index 'ind' from 'list'. Return 1 on success, 0 on failure 
-char wmlistRemoveIndex(WMList** list, int ind);
+char ptrwmlistRemoveIndex(PtrWMList** list, int ind);
 // Remove node with value 'val' from 'list'. Return 1 on success, 0 on failure 
-char wmlistRemoveElement(WMList** list, WashingMachine val);
+char ptrwmlistRemoveElement(PtrWMList** list, WashingMachine* val);
 // Free memory allocated for list. Return 1 on success, 0 on failure 
-char wmlistDelete(WMList* list);
+char ptrwmlistDelete(PtrWMList* list);
 // Get string representation of 'list';
-char* wmlistToString(const WMList* list);
+char* ptrwmlistToString(const PtrWMList* list);
 // Sort list with key. If 'key' is NULL, WM's default compare function is used.
 // Return 1 on success, 0 on failure.
-char wmlistSort(WMList** wmlist, Compare key);
+char ptrwmlistSort(PtrWMList** wmlist, Compare key);
 // Insert 'val' into sorted list. The list is assumed to be sorted by the 'key'.
 // If 'key' is null the list is assumed to be sorted by the WM's default compare function.
 // Return 1 on success, 0 on failure.
-char wmlistSortedInsert(WMList** wmlist, WashingMachine val, Compare key);
+char ptrwmlistSortedInsert(PtrWMList** wmlist, WashingMachine* val, Compare key);

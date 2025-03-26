@@ -27,6 +27,9 @@
     <ClCompile Include="..\PZ2_Structs\WashingMachine.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PtrWMList.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WMList.h">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\PZ2_Structs\WashingMachine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PtrWMList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

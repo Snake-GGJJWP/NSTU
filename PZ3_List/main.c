@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "WMList.h"
+#include "PtrWMList.h"
 
 #define N 8
 
@@ -45,4 +46,15 @@ int main() {
 	printf("LIST2_REMOVE: \n%s\n", wmlistToString(wmlist));
 
 	wmlistDelete(wmlist);
+
+	// Pointer WMList
+
+	WashingMachine* ptrwmarr[N];
+	for (int i = 0; i < N; i++) {
+		ptrwmarr[i] = &wmarr[i];
+	}
+
+	PtrWMList* ptrwmlist = newptrWMList(ptrwmarr, N);
+	ptrwmlistSort(&ptrwmlist, NULL);
+	printf("LIST3_SORTED: \n%s\n", ptrwmlistToString(ptrwmlist));
 }
