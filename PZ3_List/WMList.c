@@ -85,7 +85,7 @@ int wmlistLength(const WMList* list) {
 }
 
 // Remove node at index 'ind' from 'list'. Return 1 on success, 0 on failure 
-char wmlistRemove(WMList** list, int ind) {
+char wmlistRemoveIndex(WMList** list, int ind) {
 	WMList* currentNode = wmlistGetNode(*list, ind); // currentNode at index 'ind' 
 	WMList* nextNode = wmlistGetNode(*list, ind + 1); // nextNode at index 'ind + 1'
 	WMList* prevNode = wmlistGetNode(*list, ind - 1); // prevNode at index 'ind - 1'
@@ -102,6 +102,21 @@ char wmlistRemove(WMList** list, int ind) {
 
 	prevNode->next = nextNode; // doesn't matter if nextNode is actual node or NULL
 	return 1;
+}
+
+// Remove node with value 'val' from 'list'. Return 1 on success, 0 on failure 
+char wmlistRemoveElement(WMList** list, WashingMachine val) {
+	int ind = 0;
+	WMList* head = *list;
+	for (; head != NULL; head = head->next) {
+		if (wmIsEqual(&head->val, &val) == 0) break;
+		ind++;
+	}
+
+	// No such element
+	if (head == NULL) return 0;
+	
+	return wmlistRemoveIndex(list, ind);
 }
 
 // Free memory allocated for list. Return 1 on success, 0 on failure 
@@ -124,7 +139,7 @@ char* wmlistToString(const WMList* list) {
 
 	for (WMList* node = list; node != NULL; node = node->next) {
 		char* currentNum = malloc(WM_LEN); // 12 - is a maximum length of integer, plus comma.
-		if (node->next != NULL) snprintf(currentNum, WM_LEN, "%s, ", wmToString(&node->val));
+		if (node->next != NULL) snprintf(currentNum, WM_LEN, "%s\n ", wmToString(&node->val));
 		else snprintf(currentNum, WM_LEN, "%s", wmToString(&node->val));
 
 		snprintf(string + ind, maxBuffer, "%s", currentNum);

@@ -23,7 +23,9 @@ WMList* wmlistGetNode(const WMList* list, int ind);
 // Get 'list' length. Return length on success, -1 on failure.
 int wmlistLength(const WMList* list);
 // Remove node at index 'ind' from 'list'. Return 1 on success, 0 on failure 
-char wmlistRemove(WMList** list, int ind);
+char wmlistRemoveIndex(WMList** list, int ind);
+// Remove node with value 'val' from 'list'. Return 1 on success, 0 on failure 
+char wmlistRemoveElement(WMList** list, WashingMachine val);
 // Free memory allocated for list. Return 1 on success, 0 on failure 
 char wmlistDelete(WMList* list);
 // Get string representation of 'list';
