@@ -18,24 +18,15 @@
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IBST.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WMBST.c">
+    <ClCompile Include="WMQueue.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="IBST.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WMBST.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\PZ2_Structs\WashingMachine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\PZ3_List\WMCompare.h">
+    <ClInclude Include="WMQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
