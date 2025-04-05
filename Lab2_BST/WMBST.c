@@ -125,7 +125,7 @@ void WMBSTdelete(WMBST* tree) {
 static void getNodeAndParent(WMBST** parent, WMBST** node, Direction* direction, WashingMachine val) {
 	while ((*node) != NULL && wmIsEqual(&(*node)->value, &val) != 0) {
 		*parent = *node;
-		if (wmcmp(&(*node)->value, &val) == 1) {
+		if (wmcmp(&(*node)->value, &val) == -1) {
 			*node = (*node)->left;
 			*direction = LEFT;
 		}

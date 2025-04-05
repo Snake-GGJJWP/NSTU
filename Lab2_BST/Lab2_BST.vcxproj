@@ -128,6 +128,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\PZ2_Structs\WashingMachine.c" />
+    <ClCompile Include="..\PZ3_List\WMCompare.c" />
     <ClCompile Include="IBST.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="WMBST.c" />

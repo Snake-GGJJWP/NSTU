@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 
 #include "IBST.h"
 #include "WMBST.h"
@@ -82,9 +83,10 @@ int main() {
 	double waterconsume_l, price;
 
 	printf("Model: ");
-	fgets(model, 10, stdin);
 	int c;
-	while ((c = getchar()) != '\n' && c != EOF);
+	while ((c = getchar()) != '\n' && c != EOF); // buffer cleaning
+	fgets(model, 10, stdin);
+	model[strcspn(model, "\n")] = '\0'; // cut the tail
 
 	printf("Water consume: ");
 	scanf_s("%lf", &waterconsume_l);

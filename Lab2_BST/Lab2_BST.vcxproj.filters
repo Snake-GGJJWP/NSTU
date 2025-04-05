@@ -24,6 +24,12 @@
     <ClCompile Include="WMBST.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\PZ2_Structs\WashingMachine.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\PZ3_List\WMCompare.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IBST.h">
