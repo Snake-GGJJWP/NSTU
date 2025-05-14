@@ -13,7 +13,7 @@ int main() {
         std::cout << apple << std::endl;
 
         // Нагревание
-        apple + 100000;
+        apple + 100;
         std::cout << "Apple after heating:" << std::endl;
         std::cout << apple << std::endl;
 
