@@ -9,37 +9,38 @@
 #include <stdint.h>
 
 #define BUF 16
-#define WM_BYTES (MODEL_MAX_LEN + sizeof(double) + sizeof(double))
+#define WM_BYTES (MODEL_MAX_LEN + sizeof(double) + sizeof(double)) // number of bytes used by WashingMachine's fields
 
 // Print error for a file
 static void printerr(const char* file) {
 	switch (errno) {
 	case EACCES:
-		printf("[WARNING]: Access denied! Path: %s", file);
+		printf("[WARNING]: Access denied! Path: %s\n", file);
 		break;
 	case EEXIST:
-		printf("[WARNING]: File already exists! Path: %s", file);
+		printf("[WARNING]: File already exists! Path: %s\n", file);
 		break;
 	case EISDIR:
-		printf("[WARNING]: Cannot read/write a directory! Path: %s", file);
+		printf("[WARNING]: Cannot read/write a directory! Path: %s\n", file);
 		break;
 	case ENOENT:
-		printf("[WARNING]: No such file! Path: %s", file);
+		printf("[WARNING]: No such file! Path: %s\n", file);
 		break;
 	case ENOSPC:
-		printf("[WARNING]: No space left! Path: %s", file);
+		printf("[WARNING]: No space left! Path: %s\n", file);
 		break;
 	case EBADF:
-		printf("[WARNING]: Incorrect file descriptor! Path: %s", file);
+		printf("[WARNING]: Incorrect file descriptor! Path: %s\n", file);
 		break;
 	case EINVAL:
-		printf("[WARNING]: Wrong mode! Path: %s", file);
+		printf("[WARNING]: Wrong mode! Path: %s\n", file);
 		break;
 	default:
-		printf("[WARNING]: Some error occured during file processing! Path: %s", file);
+		printf("[WARNING]: Some error occured during file processing! Path: %s\n", file);
 	}
 }
 
+// Dump structure into a file descriptor. Allows to avoid constantly closing and reopening a file
 static char wmdump_fd(int fd, const char* path, const WashingMachine* wm) {
 	// Since we have a pointer field in WashingMachine, we gotta write the fields separately
 	if (write(fd, wm->model, MODEL_MAX_LEN) == -1 ||
@@ -53,6 +54,7 @@ static char wmdump_fd(int fd, const char* path, const WashingMachine* wm) {
 	return 1;
 }
 
+// Load structure into a file descriptor. Allows to avoid constantly closing and reopening a file
 static WashingMachine* wmload_fd(int fd, const char* path) {
 	WashingMachine* wm = newWashingMachine();
 	char* model = (char*)malloc(MODEL_MAX_LEN);
@@ -96,6 +98,8 @@ char wmdump(const char* path, const WashingMachine* wm) {
 
 	return result;
 }
+
+// Load  WashingMachine structure from the file. Return NULL on failure, loaded structure on success
 WashingMachine* wmload(const char* path) {
 	int fd = open(path, O_RDONLY | O_BINARY, S_IWRITE);
 	if (fd == -1) {
@@ -114,6 +118,7 @@ WashingMachine* wmload(const char* path) {
 	return wm;
 }
 
+// Dump array of WashingMachine structures into the file. Return 0 on failure, 1 on success
 char wmarrdump(const char* path, const WashingMachine** wm, int size) {
 	int fd = open(path, O_WRONLY | O_BINARY | O_CREAT | O_TRUNC, S_IWRITE);
 	if (fd == -1) {
@@ -139,6 +144,8 @@ char wmarrdump(const char* path, const WashingMachine** wm, int size) {
 
 	return 1;
 }
+
+// Load array of WashingMachine structures into the file. Return NULL on failure, loaded array on success
 WashingMachine** wmarrload(const char* path, int* size) {
 	WashingMachine** wmarr = (WashingMachine**)malloc(sizeof(WashingMachine*) * BUF);
 	int i = 0;
@@ -187,6 +194,7 @@ WashingMachine** wmarrload(const char* path, int* size) {
 	return wmarr;
 }
 
+// Dump WashingMachine queue structure into the file. Return 0 on failure, 1 on success
 char wmqueuedump(const char* path, WMQueue* wmqueue) {
 	WashingMachine** wmarr = (WashingMachine**)malloc(sizeof(WashingMachine*) * BUF);
 	int i = 0;
@@ -212,9 +220,12 @@ char wmqueuedump(const char* path, WMQueue* wmqueue) {
 	return 0;
 }
 
+// Load WashingMachine queue structure into the file. Return NULL on failure, loaded queue on success
 WMQueue* wmqueueload(const char* path) {
 	int size = 0;
 	WashingMachine** wmarr = wmarrload(path, &size);
+	if (wmarr == NULL) return NULL;
+
 	WMQueue* wmqueue = NULL;
 
 	for (int i = 0; i < size; i++)

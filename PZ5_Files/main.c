@@ -16,52 +16,44 @@
 void printerr(const char* file) {
 	switch (errno) {
 	case EACCES:
-		printf("[WARNING]: Access denied! Path: %s", file);
+		printf("[WARNING]: Access denied! Path: %s\n", file);
 		break;
 	case EEXIST:
-		printf("[WARNING]: File already exists! Path: %s", file);
+		printf("[WARNING]: File already exists! Path: %s\n", file);
 		break;
 	case EISDIR:
-		printf("[WARNING]: Cannot read/write a directory! Path: %s", file);
+		printf("[WARNING]: Cannot read/write a directory! Path: %s\n", file);
 		break;
 	case ENOENT:
-		printf("[WARNING]: No such file! Path: %s", file);
+		printf("[WARNING]: No such file! Path: %s\n", file);
 		break;
 	case ENOSPC:
-		printf("[WARNING]: No space left! Path: %s", file);
+		printf("[WARNING]: No space left! Path: %s\n", file);
 		break;
 	case EBADF:
-		printf("[WARNING]: Incorrect file descriptor! Path: %s", file);
+		printf("[WARNING]: Incorrect file descriptor! Path: %s\n", file);
 		break;
 	case EINVAL:
-		printf("[WARNING]: Wrong mode! Path: %s", file);
+		printf("[WARNING]: Wrong mode! Path: %s\n", file);
 		break;
 	default:
-		printf("[WARNING]: Some error occured during file processing! Path: %s", file);
+		printf("[WARNING]: Some error occured during file processing! Path: %s\n", file);
 	}
 }
 
 int main() {
 	const char path[N] = "test.txt";
 	int fd;
-	
+
 	// Part 1
-	// ### open, write, creat ###
 
-	// Testing creat
-	/*fd = creat(path, S_IWRITE|S_IREAD); // It won't trigger EEXCL error, beacause doesn't have O_EXCL flag
-	if (fd == -1) {
-		printerr(path);
-		return 0;
-	}*/
+	//fd = open(path, O_RDWR | O_TRUNC | O_CREAT | O_EXCL, S_IWRITE);
+	//if (fd == -1) {
+	//	printerr(path);
+	//	// return 0;
+	//}
 
-
-	fd = open(path, O_RDWR | O_TRUNC | O_CREAT | O_EXCL, S_IWRITE);
-	if (fd == -1) {
-		// printerr(path);
-		fd = open(path, O_RDWR | O_APPEND, S_IWRITE);
-		// return 0;
-	}
+	fd = open(path, O_RDWR | O_APPEND | O_CREAT, S_IWRITE);
 
 	if (write(fd, "some", 4) == -1) {
 		printerr(path);
@@ -193,6 +185,21 @@ int main() {
 	memcpy(&fl, &buf4, sizeof(float));
 	write(fd, &fl, sizeof(float));
 
+	// Reverse the char string
+	char temp; // variable for temporary values
+	for (int i = 0; i < len / 2; i++)
+	{
+		lseek(fd, i + 1, SEEK_SET); // set cursor at the i'th element of the string from the left
+		read(fd, buf, 1);
+		temp = *(char*)buf;
+		lseek(fd, 1 + len - i - 1, SEEK_SET); // set cursor at the i'th element of the string from the right
+		read(fd, buf, 1);
+		lseek(fd, -1, SEEK_CUR); // move back so we don't leave the element we read
+		write(fd, &temp, 1); // swap elements on opposite ends
+		lseek(fd, i + 1, SEEK_SET); // back on the first element
+		write(fd, buf, 1); // comlete the swap
+	}
+
 	free(buf);
 
 	// ### PART 5 ###
@@ -200,6 +207,7 @@ int main() {
 	WashingMachine* wm = newWashingMachine();
 	wmInit(wm, "Samsung", 20, 2000);
 	
+	printf("\nSingle structure dump and load:\n");
 	if (wmdump("wm.bin", wm) == 0) {
 		printf("Error occured during dumping");
 	}
@@ -216,13 +224,20 @@ int main() {
 	}
 
 	// List dumping and loading
-	int size = 17;
+	int size = 5;
 	WashingMachine** wmarr = (WashingMachine**)malloc(sizeof(WashingMachine*) * size); // array of 16 elements
 	for (int i = 0; i < size; i++) {
 		wmarr[i] = newWashingMachine(); 
 		wmSetPrice(wmarr[i], i*i);
 	}
+	printf("\nArray of structures dump and load:\n");
+
+	printf("Dumped array (same for queue): \n");
+	for (int i = 0; i < size; i++) {
+		printf("%s\n", wmToString(wmarr[i]));
+	}
 	wmarrdump("wmarr.bin", wmarr, size);
+
 
 	size = 0;
 	wmarr = wmarrload("wmarr.bin", &size);
@@ -237,6 +252,7 @@ int main() {
 	{
 		wmqueueAppendRight(&wmqueue, *wmarr[i]);
 	}
+	printf("\nQueue of structures dump and load:\n");
 
 	wmqueuedump("wmqueue.bin", wmqueue);
 
