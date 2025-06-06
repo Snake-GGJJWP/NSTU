@@ -44,15 +44,15 @@ bool FoodBag::put(const std::string& label, Product&& product) {
 	mass += m;
 
 	sumEnergy += m * t * c;
-	double avgEnergy = sumEnergy / food.size();
+	double avgEnergy = sumEnergy / mass;
 
-	for (auto i : food) {
+	for (auto& i : food) {
 		m = i.second.get_mass();
 		t = i.second.get_temperature() + 273; // convert to Kelvin
 		c = i.second.get_heat_capacity();
-		int energy = m * t * c;
+		double energy = m * t * c;
 
-		i.second + (avgEnergy - energy); // heating/freezing the product
+		i.second + (avgEnergy*m - energy); // heating/freezing the product
 	}
 }
 // Get and remove a product with key 'label'
@@ -90,27 +90,29 @@ unsigned short FoodBag::spoiled() {
 // Get count of spoiled products in the bag if put 'products' in it
 unsigned short FoodBag::spoiledIfPut(std::vector<Product>& products) {
 	if (products.empty()) return 0;
-
+	
 	unsigned short spoiledBefore = spoiled();
 	unsigned short count = 0;
 	double deltaEnergy = 0;
+	double productsMass = 0;
 	for (auto product : products) {
 		double m = product.get_mass();
 		double t = product.get_temperature() + 273; // convert to Kelvin
 		double c = product.get_heat_capacity();
 		
 		deltaEnergy += m * t * c;
+		productsMass += m;
 	}
 
-	double avgEnergy = (sumEnergy + deltaEnergy) / food.size();
+	double avgEnergy = (sumEnergy + deltaEnergy) / (mass + productsMass);
 	
 	// Count spoiled food in the bag;
-	for (auto i : food) {
+	for (auto& i : food) {
 		double m = i.second.get_mass();
 		double t = i.second.get_temperature() + 273; // convert to Kelvin
 		double c = i.second.get_heat_capacity();
 		double curEnergy = m * t * c;
-		double newTemp = i.second.calculate_temperature_change(avgEnergy - curEnergy);
+		double newTemp = i.second.calculate_temperature_change(avgEnergy*m - curEnergy);
 		
 		if (newTemp < i.second.get_min_temperature() || newTemp > i.second.get_max_temperature()) {
 			count++;
@@ -118,12 +120,12 @@ unsigned short FoodBag::spoiledIfPut(std::vector<Product>& products) {
 	}
 
 	// Count spoiled food in the list
-	for (auto product : products ) {
+	for (auto& product : products ) {
 		double m = product.get_mass();
 		double t = product.get_temperature() + 273; // convert to Kelvin
 		double c = product.get_heat_capacity();
 		double curEnergy = m * t * c;
-		double newTemp = product.calculate_temperature_change(avgEnergy - curEnergy);
+		double newTemp = product.calculate_temperature_change(avgEnergy*m - curEnergy);
 
 		if (newTemp < product.get_min_temperature() || newTemp > product.get_max_temperature()) {
 			count++;
