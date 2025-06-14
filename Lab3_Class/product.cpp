@@ -106,12 +106,10 @@ std::ostream& operator<<(std::ostream& os, const Product& product) {
 }
 
 Product& Product::operator+(double energy) {
-    if (state != ProductState::NORMAL) {
-        return *this; // Нельзя изменять температуру замороженного или перегретого продукта
-    }
-
     temperature += energy / (mass * heat_capacity);
 
-    update_state();
+    if (state == ProductState::NORMAL) {
+        update_state(); // Нельзя изменять температуру замороженного или перегретого продукта
+    }
     return *this;
 }
